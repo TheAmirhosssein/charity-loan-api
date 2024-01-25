@@ -3,5 +3,7 @@ version: '3.9'
 services:
   django:
     build: ./
+    volumes:
+      - ./:/app
     ports:
       - "8000:8000"
