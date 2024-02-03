@@ -6,11 +6,11 @@ ENV PYTHONUNBUFFERED 1
 
 WORKDIR /app
 
-ADD requirements /app/requirements
+RUN pip install --upgrade pip pipenv flake8
 
-COPY requirements.txt /app/
+COPY Pipfile* ./
 
-RUN pip install -r requirements.txt
+RUN pipenv install --system --ignore-pipfile
 
 COPY . /app/
 
