@@ -2,8 +2,19 @@ version: '3.9'
 
 services:
   django:
-    build: ./
+    build:
+      context: .
     volumes:
       - ./:/app
     ports:
       - "8000:8000"
+  db:
+    image: postgres
+    volumes:
+      - data:/var/lib/postgresql/data/
+    env_file:
+      - .env
+
+
+volumes:
+  data:
