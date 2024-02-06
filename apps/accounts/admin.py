@@ -1,10 +1,10 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from .models import User
+from apps.common.admin import BaseModelAdmin
 
 
-class UserAdmin(admin.ModelAdmin):
+class UserAdmin(BaseModelAdmin):
     list_display = (
         "personal_code",
         "first_name",
@@ -13,7 +13,6 @@ class UserAdmin(admin.ModelAdmin):
     readonly_fields = ("last_login",)
 
     search_fields = ("phone_number", "lastname", "firstname")
-    ordering = ("-id",)
     filter_horizontal = ("user_permissions", "groups")
 
 
