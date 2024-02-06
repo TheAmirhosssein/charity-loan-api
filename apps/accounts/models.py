@@ -1,19 +1,16 @@
 import os
-from typing import Any
+
 from apps.common.models import BaseModel
 from apps.common.managers import BaseManager
 from django.db import models
-from django.contrib.auth.models import AbstractUser, PermissionsMixin, UserManager
+from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django_resized import ResizedImageField
 from django.utils import timezone
 
-
-class BaseUserManager(BaseManager, UserManager):
-    def create_superuser(self, password: str | None, **extra_fields: Any) -> Any:
-        return super().create_superuser(password, **extra_fields)
+from apps.accounts.managers import BaseUserManager
 
 
 def validate_image_extension(value):
@@ -34,6 +31,7 @@ class User(BaseModel, AbstractUser, PermissionsMixin):
         ("F", _("female")),
     ]
 
+    username = models.CharField(_("username"), max_length=50, null=True, unique=False)
     phone_number = models.CharField(
         _("phone number"),
         max_length=15,
@@ -68,10 +66,10 @@ class User(BaseModel, AbstractUser, PermissionsMixin):
 
     USERNAME_FIELD = "personal_code"
     REQUIRED_FIELDS = [
-        "phone_number",
-        "gender",
+        "email",
         "firstname",
         "lastname",
+        "phone_number",
     ]
 
     def __str__(self) -> str:
