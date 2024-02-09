@@ -4,7 +4,6 @@ import string
 from datetime import timedelta
 
 from apps.common.models import BaseModel
-from apps.common.managers import BaseManager
 from django.db import models
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
@@ -46,7 +45,12 @@ class User(BaseModel, AbstractUser, PermissionsMixin):
         ("F", _("female")),
     ]
 
-    username = models.CharField(_("username"), max_length=50, null=True, unique=False)
+    username = models.CharField(
+        _("username"),
+        max_length=50,
+        null=True,
+        unique=False,
+    )
     phone_number = models.CharField(
         _("phone number"),
         max_length=15,
@@ -73,17 +77,16 @@ class User(BaseModel, AbstractUser, PermissionsMixin):
     )
     email = models.EmailField(_("email"), null=True, blank=True)
     gender = models.CharField(_("gender"), max_length=10, choices=GENDERS)
-    firstname = models.CharField(_("first name"), max_length=150, blank=True, null=True)
-    lastname = models.CharField(_("last name"), max_length=150, blank=True, null=True)
-    last_otp_verify = models.DateField(default=timezone.now)
+    first_name = models.CharField(_("first name"), max_length=150)
+    last_name = models.CharField(_("last name"), max_length=150)
 
     objects = BaseUserManager()
 
     USERNAME_FIELD = "personal_code"
     REQUIRED_FIELDS = [
         "email",
-        "firstname",
-        "lastname",
+        "first_name",
+        "last_name",
         "phone_number",
     ]
 
@@ -94,7 +97,11 @@ class User(BaseModel, AbstractUser, PermissionsMixin):
 
 
 class OTPRequest(BaseModel):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="users")
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="users",
+    )
     otp = models.CharField(max_length=6, default=generate_otp)
     verified = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)

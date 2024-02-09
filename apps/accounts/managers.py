@@ -7,8 +7,8 @@ class BaseUserManager(BaseManager, UserManager):
     def create_superuser(
         self,
         personal_code: str,
-        firstname: str,
-        lastname: str,
+        first_name: str,
+        last_name: str,
         phone_number: str,
         email: str,
         password=None,
@@ -18,9 +18,9 @@ class BaseUserManager(BaseManager, UserManager):
             raise ValueError(_("User must have a personal code"))
         if not password:
             raise ValueError(_("User must have a password"))
-        if not firstname:
+        if not first_name:
             raise ValueError(_("User must have a firstname"))
-        if not lastname:
+        if not last_name:
             raise ValueError(_("User must have a lastname"))
         if not phone_number:
             raise ValueError(_("User must have a mobile_phone"))
@@ -28,9 +28,9 @@ class BaseUserManager(BaseManager, UserManager):
             raise ValueError(_("User must have a email"))
 
         user = self.model(email=self.normalize_email(email))
-        user.firstname = firstname
+        user.firstname = first_name
         user.personal_code = personal_code
-        user.lastname = lastname
+        user.lastname = last_name
         user.phone_number = phone_number
         user.set_password(password)
         user.is_superuser = True
