@@ -20,4 +20,6 @@ class BaseModel(models.Model):
         abstract = True
 
     def delete(self, using=None, keep_parents=False):
-        self.update(deleted=True, deleted_at=timezone.now())
+        self.deleted = True
+        self.deleted_at = timezone.now()
+        self.save()

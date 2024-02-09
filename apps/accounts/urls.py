@@ -1,8 +1,12 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 from apps.accounts import views
 
 app_name = "accounts"
 
+router = DefaultRouter()
+router.register("", views.UserAdminVS, basename="user_admin")
+
 urlpatterns = [
-    path("user/create/", views.CreateUserAV.as_view(), name="create_user"),
+    path("user/", include(router.urls), name="create_user"),
 ]

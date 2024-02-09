@@ -1,10 +1,10 @@
-from rest_framework.generics import CreateAPIView
+from rest_framework.viewsets import ModelViewSet
 from django.contrib.auth import get_user_model
 from apps.accounts import serializers
 
 User = get_user_model()
 
 
-class CreateUserAV(CreateAPIView):
+class UserAdminVS(ModelViewSet):
     queryset = User.objects.all()
-    serializer_class = serializers.CreateUser
+    serializer_class = serializers.UserInfoSerializer

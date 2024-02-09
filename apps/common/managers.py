@@ -12,7 +12,7 @@ class BaseManager(models.Manager):
         return super().get(deleted=False, *args, **kwargs)
 
     def all(self):
-        return super().all().exclude(deleted=False)
+        return super().all().exclude(deleted=True)
 
     def get_queryset(self):
         return super().get_queryset().exclude(deleted=True)

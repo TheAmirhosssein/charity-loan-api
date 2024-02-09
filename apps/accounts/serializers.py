@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-class CreateUser(serializers.ModelSerializer):
+class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
@@ -13,4 +13,24 @@ class CreateUser(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "gender",
+            "avatar",
+            "email",
+        ]
+
+
+class UserInfoSerializer(serializers.ModelSerializer):
+    gender = serializers.CharField(source="get_gender_display")
+
+    class Meta:
+        model = User
+        fields = [
+            "uuid",
+            "personal_code",
+            "phone_number",
+            "first_name",
+            "last_name",
+            "gender",
+            "avatar",
+            "email",
+            "date_joined",
         ]
