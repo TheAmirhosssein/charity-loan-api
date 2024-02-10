@@ -89,6 +89,7 @@ class User(BaseModel, AbstractUser, PermissionsMixin):
         "last_name",
         "phone_number",
     ]
+    SAFE_DELETE = False
 
     def __str__(self) -> str:
         if self.last_name is None and self.first_name is None:

@@ -1,4 +1,4 @@
-import uuid
+from typing import Any
 
 from django.db import models
 from apps.common.managers import BaseManager
@@ -10,16 +10,18 @@ class BaseModel(models.Model):
     deleted_at = models.DateTimeField(null=True, blank=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True)
     deleted = models.BooleanField(default=False, editable=False)
-    uuid = models.CharField(
-        primary_key=True, default=uuid.uuid4, editable=False, max_length=36
-    )
 
     objects = BaseManager()
+
+    SAFE_DELETE = True
 
     class Meta:
         abstract = True
 
-    def delete(self, using=None, keep_parents=False):
-        self.deleted = True
-        self.deleted_at = timezone.now()
-        self.save()
+    def delete(self) -> tuple[int, dict[str, int]]:
+        if self.SAFE_DELETE:
+            self.deleted = True
+            self.deleted_at = timezone.now()
+            self.save()
+        else:
+            return super().delete()

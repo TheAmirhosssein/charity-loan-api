@@ -24,7 +24,7 @@ class UserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            "uuid",
+            "id",
             "personal_code",
             "phone_number",
             "first_name",
