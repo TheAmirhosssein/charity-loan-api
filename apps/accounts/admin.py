@@ -17,4 +17,4 @@ class UserAdmin(BaseModelAdmin):
 
 
 admin.site.register(models.User, UserAdmin)
-admin.site.register(models.OTPRequest)
+admin.site.register(models.OTPRequest, BaseModelAdmin)

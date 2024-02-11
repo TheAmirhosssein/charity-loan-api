@@ -16,12 +16,15 @@ from django.utils import timezone
 from apps.accounts.managers import BaseUserManager
 
 
+OTP_EXPIRED_TIME = 1
+
+
 def create_expired_time():
-    return timezone.now() + timedelta(minutes=1)
+    return timezone.now() + timedelta(minutes=OTP_EXPIRED_TIME)
 
 
 def create_refresh_time():
-    return timezone.now() + timedelta(minutes=1)
+    return timezone.now() + timedelta(minutes=OTP_EXPIRED_TIME)
 
 
 def generate_otp():
@@ -98,7 +101,13 @@ class User(BaseModel, AbstractUser, PermissionsMixin):
         return self.get_full_name()
 
     def can_create_otp(self) -> int:
-        last_otp = OTPRequest.objects.filter(user=self).last()
+        last_otp = (
+            OTPRequest.objects.filter(user=self)
+            .order_by(
+                "created_at",
+            )
+            .last()
+        )
         if last_otp is None:
             return True
         elif last_otp.is_expired():
@@ -115,7 +124,7 @@ class OTPRequest(BaseModel):
     )
     otp = models.CharField(max_length=6, default=generate_otp)
     verified = models.BooleanField(default=False)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(auto_now=True)
     expired = models.DateTimeField(default=create_expired_time)
     refresh = models.DateTimeField(default=create_refresh_time)
@@ -129,14 +138,13 @@ class OTPRequest(BaseModel):
     SOFT_DELETE = False
 
     def is_expired(self):
-        refresh = self.created + timedelta(minutes=1)
-        if refresh < timezone.now():
+        print(self.expired, timezone.now())
+        if self.expired < timezone.now():
             return True
         return False
 
     def is_refresh(self):
-        refresh = self.created + timedelta(minutes=1)
-        if refresh < timezone.now():
+        if self.refresh < timezone.now():
             return False
         return True
 
