@@ -150,3 +150,18 @@ class OTPRequest(BaseModel):
 
     def __str__(self) -> str:
         return f"{self.user}"
+
+
+class SentSMS(BaseModel):
+    phone_number = models.CharField(_("phone number"), max_length=50)
+    text = models.TextField()
+
+    def __str__(self) -> str:
+        return self.phone_number
+
+    def get_user(self) -> User | None:
+        user = User.objects.filter(phone_number=self.phone_number).first()
+        if user is None:
+            return None
+        else:
+            user

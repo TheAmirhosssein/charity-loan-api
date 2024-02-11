@@ -18,3 +18,4 @@ class UserAdmin(BaseModelAdmin):
 
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.OTPRequest, BaseModelAdmin)
+admin.site.register(models.SentSMS, BaseModelAdmin)

@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 from apps.accounts import serializers, models
 from django.utils.translation import gettext as _
 
+from apps.utils.senders import SendSMS
 
 User = get_user_model()
 
@@ -31,6 +32,7 @@ class SendOTP(APIView):
             )
             new_otp = models.OTPRequest(user=user)
             new_otp.save()
+            SendSMS.send_otp(new_otp.otp, user.phone_number)
             return Response(
                 {"response": _("otp code sent")},
                 status=status.HTTP_201_CREATED,
