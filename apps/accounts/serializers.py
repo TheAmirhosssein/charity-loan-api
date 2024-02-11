@@ -55,3 +55,8 @@ class SendOTPSerializer(serializers.Serializer):
             )
         else:
             return super().validate(attrs)
+
+
+class VerifyOTPSerializer(serializers.Serializer):
+    otp = serializers.CharField()
+    uuid = serializers.UUIDField()

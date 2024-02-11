@@ -133,19 +133,24 @@ class OTPRequest(BaseModel):
         default=uuid.uuid4,
         unique=True,
     )
+    verified_datetime = models.DateTimeField(null=True)
 
     SOFT_DELETE = False
 
-    def is_expired(self):
-        print(self.expired, timezone.now())
+    def is_expired(self) -> bool:
         if self.expired < timezone.now():
             return True
         return False
 
-    def is_refresh(self):
+    def is_refresh(self) -> bool:
         if self.refresh < timezone.now():
             return False
         return True
+
+    def verify_otp(self) -> None:
+        self.verified = True
+        self.verified_datetime = timezone.now()
+        self.save()
 
     def __str__(self) -> str:
         return f"{self.user}"

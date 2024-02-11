@@ -11,4 +11,5 @@ router.register("user", views.UserAdminVS, basename="user_admin")
 urlpatterns = [
     path("", include(router.urls), name="create_user"),
     path("send-otp/", views.SendOTP.as_view(), name="send_otp"),
+    path("verify-otp/", views.VerifyOTP.as_view(), name="verify_otp"),
 ]
