@@ -4,17 +4,16 @@ import string
 import uuid
 from datetime import timedelta
 
-from apps.common.models import BaseModel
-from django.db import models
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
-from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
-from django_resized import ResizedImageField
+from django.db import models
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+from django_resized import ResizedImageField
 
 from apps.accounts.managers import BaseUserManager
-
+from apps.common.models import BaseModel
 
 OTP_EXPIRED_TIME = 1
 
@@ -34,7 +33,7 @@ def generate_otp():
 def validate_image_extension(value):
     ext = os.path.splitext(value.name)[1]
     valid_extensions = [".png", ".jpg", ".jpeg"]
-    if not ext.lower() in valid_extensions:
+    if ext.lower() not in valid_extensions:
         raise ValidationError(_("images format is not valid"))
 
 
