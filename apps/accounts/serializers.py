@@ -1,8 +1,6 @@
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
 from django.utils.translation import gettext as _
-
-User = get_user_model()
+from apps.accounts.models import User
 
 
 class CreateUserSerializer(serializers.ModelSerializer):
@@ -41,7 +39,7 @@ class SendOTPSerializer(serializers.Serializer):
     phone_number = serializers.CharField()
     personal_code = serializers.CharField()
 
-    def validate(self, attrs):
+    def validate(self, attrs: dict) -> None:
         user = User.objects.filter(
             personal_code=attrs["personal_code"],
             phone_number=attrs["phone_number"],

@@ -97,10 +97,10 @@ class User(BaseModel, AbstractUser, PermissionsMixin):
 
     def __str__(self) -> str:
         if self.last_name is None and self.first_name is None:
-            return self.username
+            return self.personal_code
         return self.get_full_name()
 
-    def can_create_otp(self) -> int:
+    def can_create_otp(self) -> bool:
         last_otp = (
             OTPRequest.objects.filter(user=self)
             .order_by(

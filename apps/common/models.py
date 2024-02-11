@@ -16,7 +16,7 @@ class BaseModel(models.Model):
     class Meta:
         abstract = True
 
-    def delete(self) -> tuple[int, dict[str, int]]:
+    def delete(self) -> tuple[int, dict[str, int]] | None:
         if self.SOFT_DELETE:
             self.deleted = True
             self.deleted_at = timezone.now()
