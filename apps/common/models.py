@@ -1,5 +1,3 @@
-from typing import Any
-
 from django.db import models
 from apps.common.managers import BaseManager
 from django.utils import timezone
@@ -13,13 +11,13 @@ class BaseModel(models.Model):
 
     objects = BaseManager()
 
-    SAFE_DELETE = True
+    SOFT_DELETE = True
 
     class Meta:
         abstract = True
 
     def delete(self) -> tuple[int, dict[str, int]]:
-        if self.SAFE_DELETE:
+        if self.SOFT_DELETE:
             self.deleted = True
             self.deleted_at = timezone.now()
             self.save()
