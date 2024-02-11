@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import User
+from apps.accounts import models
 from apps.common.admin import BaseModelAdmin
 
 
@@ -16,4 +16,5 @@ class UserAdmin(BaseModelAdmin):
     filter_horizontal = ("user_permissions", "groups")
 
 
-admin.site.register(User, UserAdmin)
+admin.site.register(models.User, UserAdmin)
+admin.site.register(models.OTPRequest)

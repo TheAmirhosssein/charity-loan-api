@@ -1,6 +1,7 @@
 import os
 import random
 import string
+import uuid
 from datetime import timedelta
 
 from apps.common.models import BaseModel
@@ -109,6 +110,12 @@ class OTPRequest(BaseModel):
     updated = models.DateTimeField(auto_now=True)
     expired = models.DateTimeField(default=create_expired_time)
     refresh = models.DateTimeField(default=create_refresh_time)
+    uuid = models.UUIDField(
+        primary_key=True,
+        max_length=40,
+        default=uuid.uuid4,
+        unique=True,
+    )
 
     def is_expired(self):
         refresh = self.created + timedelta(minutes=2)
