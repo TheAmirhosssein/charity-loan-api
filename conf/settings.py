@@ -52,7 +52,10 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # costume middlewares
+    "apps.api.middlewares.TransactionMiddleware",
 ]
+
 
 ROOT_URLCONF = "conf.urls"
 

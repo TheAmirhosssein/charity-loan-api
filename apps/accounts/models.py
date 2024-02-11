@@ -17,11 +17,11 @@ from apps.accounts.managers import BaseUserManager
 
 
 def create_expired_time():
-    return timezone.now() + timedelta(minutes=10)
+    return timezone.now() + timedelta(minutes=1)
 
 
 def create_refresh_time():
-    return timezone.now() + timedelta(minutes=2)
+    return timezone.now() + timedelta(minutes=1)
 
 
 def generate_otp():
@@ -97,6 +97,15 @@ class User(BaseModel, AbstractUser, PermissionsMixin):
             return self.username
         return self.get_full_name()
 
+    def can_create_otp(self) -> int:
+        last_otp = OTPRequest.objects.filter(user=self).last()
+        if last_otp is None:
+            return True
+        elif last_otp.is_expired():
+            return True
+        else:
+            return False
+
 
 class OTPRequest(BaseModel):
     user = models.ForeignKey(
@@ -117,17 +126,19 @@ class OTPRequest(BaseModel):
         unique=True,
     )
 
+    SOFT_DELETE = False
+
     def is_expired(self):
-        refresh = self.created + timedelta(minutes=2)
+        refresh = self.created + timedelta(minutes=1)
         if refresh < timezone.now():
             return True
         return False
 
     def is_refresh(self):
-        refresh = self.created + timedelta(minutes=2)
+        refresh = self.created + timedelta(minutes=1)
         if refresh < timezone.now():
             return False
         return True
 
     def __str__(self) -> str:
-        return f"{self.user.username}"
+        return f"{self.user}"

@@ -5,8 +5,9 @@ from apps.accounts import views
 app_name = "accounts"
 
 router = DefaultRouter()
-router.register("", views.UserAdminVS, basename="user_admin")
+router.register("user", views.UserAdminVS, basename="user_admin")
 
 urlpatterns = [
-    path("user/", include(router.urls), name="create_user"),
+    path("", include(router.urls), name="create_user"),
+    path("send-otp/", views.SendOTP.as_view(), name="send_otp"),
 ]
