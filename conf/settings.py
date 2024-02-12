@@ -1,8 +1,10 @@
 import os
-
 from pathlib import Path
-from dotenv import load_dotenv
+
 import dj_database_url
+from dotenv import load_dotenv
+
+from conf.apps_settings.drf import rest_framework_settings
 
 load_dotenv(".env")
 
@@ -128,3 +130,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "accounts.User"
+
+
+rest_framework_settings()
