@@ -5,6 +5,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.accounts import models, serializers
 from apps.utils.senders import SendSMS
@@ -65,8 +66,15 @@ class VerifyOTP(APIView):
                 )
             else:
                 otp_request.verify_otp()
-                # todo : return jwt codes
-                return Response("Login Succeed")
+                token = RefreshToken.for_user(otp_request.user)
+                data = {
+                    "refresh": str(token),
+                    "access": str(token.access_token),
+                    "user": serializers.UserInfoSerializer(
+                        otp_request.user,
+                    ).data,
+                }
+                return Response(data)
         else:
             return Response(
                 serializer.errors,

@@ -5,7 +5,7 @@ class SendSMS:
     @staticmethod
     def send(phone_number: str, text: str) -> None:
         # todo : add sms service api
-        print("na")
+        print("code sent")
         SentSMS(phone_number=phone_number, text=text).save()
 
     @staticmethod

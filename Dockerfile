@@ -15,7 +15,7 @@ RUN pip install --upgrade pip pipenv flake8
 
 COPY Pipfile* ./
 
-RUN pipenv install --system --ignore-pipfile
+RUN pipenv install --system --ignore-pipfile  --deploy
 
 COPY . /app/
 
