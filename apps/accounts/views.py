@@ -4,8 +4,10 @@ from django.utils.translation import gettext as _
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import AllowAny
 
 from apps.accounts import models, serializers
 from apps.utils.senders import SendSMS
@@ -25,6 +27,8 @@ class UserAdminVS(ModelViewSet):
 
 
 class SendOTP(APIView):
+    authentication_classes = [AllowAny]
+
     def post(self, request):
         serializer = serializers.SendOTPSerializer(data=request.data)
         if serializer.is_valid():
@@ -50,6 +54,8 @@ class SendOTP(APIView):
 
 
 class VerifyOTP(APIView):
+    authentication_classes = [AllowAny]
+
     def post(self, request):
         serializer = serializers.VerifyOTPSerializer(data=request.data)
         if serializer.is_valid():
@@ -80,3 +86,11 @@ class VerifyOTP(APIView):
                 serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+
+class EditUserInfoAV(RetrieveUpdateAPIView):
+    queryset = User
+    serializer_class = serializers.EditUserInfo
+
+    def get_object(self):
+        return self.request.user

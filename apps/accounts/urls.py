@@ -13,5 +13,6 @@ urlpatterns = [
     path("", include(router.urls), name="create_user"),
     path("send-otp/", views.SendOTP.as_view(), name="send_otp"),
     path("verify-otp/", views.VerifyOTP.as_view(), name="verify_otp"),
+    path("edit-profile/", views.EditUserInfoAV.as_view(), name="edit_info"),
     path("refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]

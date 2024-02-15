@@ -60,3 +60,9 @@ class SendOTPSerializer(serializers.Serializer):
 class VerifyOTPSerializer(serializers.Serializer):
     otp = serializers.CharField()
     uuid = serializers.UUIDField()
+
+
+class EditUserInfo(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        field = ["last_name", "last_name", "gender", "avatar"]
