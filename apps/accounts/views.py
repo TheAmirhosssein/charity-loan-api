@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from apps.accounts import models, serializers
 from apps.utils.senders import SendSMS
@@ -27,7 +27,7 @@ class UserAdminVS(ModelViewSet):
 
 
 class SendOTP(APIView):
-    authentication_classes = [AllowAny]
+    permission_classes = [AllowAny]
 
     def post(self, request):
         serializer = serializers.SendOTPSerializer(data=request.data)
@@ -54,7 +54,7 @@ class SendOTP(APIView):
 
 
 class VerifyOTP(APIView):
-    authentication_classes = [AllowAny]
+    permission_classes = [AllowAny]
 
     def post(self, request):
         serializer = serializers.VerifyOTPSerializer(data=request.data)
@@ -90,7 +90,14 @@ class VerifyOTP(APIView):
 
 class EditUserInfoAV(RetrieveUpdateAPIView):
     queryset = User
-    serializer_class = serializers.EditUserInfo
+    serializer_class = serializers.ShowUserInfoSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self, *args, **kwargs):
+        if self.request.method == "GET":
+            return self.serializer_class
+        else:
+            return serializers.EditUserInfoSerializer
 
     def get_object(self):
         return self.request.user

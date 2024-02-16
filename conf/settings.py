@@ -5,6 +5,7 @@ import dj_database_url
 from dotenv import load_dotenv
 
 from conf.apps_settings.drf import rest_framework_settings
+from conf.apps_settings.jwt import simple_jwt
 
 load_dotenv(".env")
 
@@ -132,4 +133,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "accounts.User"
 
 
-rest_framework_settings()
+REST_FRAMEWORK = rest_framework_settings()
+SIMPLE_JWT = simple_jwt()

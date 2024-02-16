@@ -62,7 +62,22 @@ class VerifyOTPSerializer(serializers.Serializer):
     uuid = serializers.UUIDField()
 
 
-class EditUserInfo(serializers.ModelSerializer):
+class EditUserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        field = ["last_name", "last_name", "gender", "avatar"]
+        fields = ["first_name", "last_name", "gender", "avatar"]
+
+
+class ShowUserInfoSerializer(serializers.ModelSerializer):
+    gender = serializers.CharField(source="get_gender_display")
+
+    class Meta:
+        model = User
+        fields = [
+            "first_name",
+            "last_name",
+            "gender",
+            "avatar",
+            "personal_code",
+            "phone_number",
+        ]
