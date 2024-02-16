@@ -7,7 +7,7 @@ from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.accounts import models, serializers
@@ -104,11 +104,11 @@ class EditUserInfoAV(RetrieveUpdateAPIView):
         return self.request.user
 
 
-class UserLogVS(ModelViewSet):
+class UserLogVS(ReadOnlyModelViewSet):
     serializer_class = serializers.UserLogserializer
     queryset = APILogsModel.objects.all()
 
 
-class SMSReportVS(ModelViewSet):
+class SMSReportVS(ReadOnlyModelViewSet):
     serializer_class = serializers.SentSMSSerializer
     queryset = models.SentSMS.objects.all()
