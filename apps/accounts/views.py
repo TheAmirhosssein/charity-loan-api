@@ -107,3 +107,8 @@ class EditUserInfoAV(RetrieveUpdateAPIView):
 class UserLogVS(ModelViewSet):
     serializer_class = serializers.UserLogserializer
     queryset = APILogsModel.objects.all()
+
+
+class SMSReportVS(ModelViewSet):
+    serializer_class = serializers.SentSMSSerializer
+    queryset = models.SentSMS.objects.all()

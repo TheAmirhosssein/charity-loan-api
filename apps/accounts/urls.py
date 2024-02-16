@@ -9,6 +9,7 @@ app_name = "accounts"
 router = DefaultRouter()
 router.register("user", views.UserAdminVS, basename="user_admin")
 router.register("log", views.UserLogVS, basename="user_log")
+router.register("sent-sms", views.SMSReportVS, basename="sent_sms")
 
 urlpatterns = [
     path("", include(router.urls), name="create_user"),

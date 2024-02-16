@@ -165,7 +165,4 @@ class SentSMS(BaseModel):
 
     def get_user(self) -> User | None:
         user = User.objects.filter(phone_number=self.phone_number).first()
-        if user is None:
-            return None
-        else:
-            user
+        return user

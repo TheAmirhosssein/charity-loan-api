@@ -2,7 +2,7 @@ from django.utils.translation import gettext as _
 from rest_framework import serializers
 from drf_api_logger.models import APILogsModel
 
-from apps.accounts.models import User
+from apps.accounts.models import User, SentSMS
 
 
 class CreateUserSerializer(serializers.ModelSerializer):
@@ -88,3 +88,11 @@ class UserLogserializer(serializers.ModelSerializer):
     class Meta:
         model = APILogsModel
         fields = ["body", "api", "method", "status_code"]
+
+
+class SentSMSSerializer(serializers.ModelSerializer):
+    user = serializers.CharField(source="get_user")
+
+    class Meta:
+        model = SentSMS
+        exclude = ["deleted", "deleted_at"]
