@@ -8,6 +8,7 @@ app_name = "accounts"
 
 router = DefaultRouter()
 router.register("user", views.UserAdminVS, basename="user_admin")
+router.register("log", views.UserLogVS, basename="user_log")
 
 urlpatterns = [
     path("", include(router.urls), name="create_user"),

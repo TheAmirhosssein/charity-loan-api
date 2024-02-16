@@ -1,5 +1,6 @@
 from django.utils.translation import gettext as _
 from rest_framework import serializers
+from drf_api_logger.models import APILogsModel
 
 from apps.accounts.models import User
 
@@ -81,3 +82,9 @@ class ShowUserInfoSerializer(serializers.ModelSerializer):
             "personal_code",
             "phone_number",
         ]
+
+
+class UserLogserializer(serializers.ModelSerializer):
+    class Meta:
+        model = APILogsModel
+        fields = ["body", "api", "method", "status_code"]

@@ -35,9 +35,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-THIRD_PARTY_APPS = [
-    "rest_framework",
-]
+THIRD_PARTY_APPS = ["rest_framework", "drf_api_logger"]
 
 LOCAL_APPS = [
     "apps.api",
@@ -57,6 +55,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # costume middlewares
     "apps.api.middlewares.TransactionMiddleware",
+    "drf_api_logger.middleware.api_logger_middleware.APILoggerMiddleware",
 ]
 
 
@@ -135,3 +134,5 @@ AUTH_USER_MODEL = "accounts.User"
 
 REST_FRAMEWORK = rest_framework_settings()
 SIMPLE_JWT = simple_jwt()
+
+DRF_API_LOGGER_DATABASE = True

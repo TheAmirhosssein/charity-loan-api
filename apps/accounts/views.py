@@ -1,13 +1,14 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext as _
+from drf_api_logger.models import APILogsModel
 from rest_framework import status
+from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from apps.accounts import models, serializers
 from apps.utils.senders import SendSMS
@@ -101,3 +102,8 @@ class EditUserInfoAV(RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+class UserLogVS(ModelViewSet):
+    serializer_class = serializers.UserLogserializer
+    queryset = APILogsModel.objects.all()
