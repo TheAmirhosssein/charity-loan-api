@@ -12,6 +12,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.accounts import models, serializers
 from apps.utils.senders import SendSMS
+from apps.api.permissions import IsAdmin
 
 User = get_user_model()
 
@@ -19,6 +20,7 @@ User = get_user_model()
 class UserAdminVS(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = serializers.UserInfoSerializer
+    permission_classes = [IsAdmin]
 
     def get_serializer_class(self):
         if self.request.method == "GET":
@@ -29,6 +31,7 @@ class UserAdminVS(ModelViewSet):
 
 class SendOTP(APIView):
     permission_classes = [AllowAny]
+    authentication_classes = []
 
     def post(self, request):
         serializer = serializers.SendOTPSerializer(data=request.data)
@@ -56,6 +59,7 @@ class SendOTP(APIView):
 
 class VerifyOTP(APIView):
     permission_classes = [AllowAny]
+    authentication_classes = []
 
     def post(self, request):
         serializer = serializers.VerifyOTPSerializer(data=request.data)
@@ -107,8 +111,10 @@ class EditUserInfoAV(RetrieveUpdateAPIView):
 class UserLogVS(ReadOnlyModelViewSet):
     serializer_class = serializers.UserLogserializer
     queryset = APILogsModel.objects.all()
+    permission_classes = [IsAdmin]
 
 
 class SMSReportVS(ReadOnlyModelViewSet):
     serializer_class = serializers.SentSMSSerializer
     queryset = models.SentSMS.objects.all()
+    permission_classes = [IsAdmin]

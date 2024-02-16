@@ -82,6 +82,7 @@ class User(BaseModel, AbstractUser, PermissionsMixin):
     gender = models.CharField(_("gender"), max_length=10, choices=GENDERS)
     first_name = models.CharField(_("first name"), max_length=150)
     last_name = models.CharField(_("last name"), max_length=150)
+    is_admin = models.BooleanField(_("is admin"), default=False)
 
     objects = BaseUserManager()
 
