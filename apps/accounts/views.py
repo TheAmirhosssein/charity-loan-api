@@ -21,6 +21,14 @@ class UserAdminVS(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = serializers.UserInfoSerializer
     permission_classes = [IsAdmin]
+    filterset_fields = ["gender"]
+    search_fields = [
+        "first_name",
+        "last_name",
+        "phone_number",
+        "personal_code",
+    ]
+    ordering_fields = ["id"]
 
     def get_serializer_class(self):
         if self.request.method == "GET":
@@ -112,9 +120,12 @@ class UserLogVS(ReadOnlyModelViewSet):
     serializer_class = serializers.UserLogserializer
     queryset = APILogsModel.objects.all()
     permission_classes = [IsAdmin]
+    filter_backends = ["method", "status_code"]
 
 
 class SMSReportVS(ReadOnlyModelViewSet):
     serializer_class = serializers.SentSMSSerializer
     queryset = models.SentSMS.objects.all()
     permission_classes = [IsAdmin]
+    search_fields = ["phone_number"]
+    ordering_fields = ["id"]
