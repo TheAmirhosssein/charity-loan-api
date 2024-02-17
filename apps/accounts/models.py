@@ -158,8 +158,11 @@ class OTPRequest(BaseModel):
 
 
 class SentSMS(BaseModel):
+    REASONS = [("OTP", _("send otp code"))]
+
     phone_number = models.CharField(_("phone number"), max_length=50)
     text = models.TextField()
+    reason = models.CharField(_("reason"), max_length=50, choices=REASONS)
 
     def __str__(self) -> str:
         return self.phone_number
