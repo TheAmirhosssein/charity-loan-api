@@ -92,6 +92,7 @@ class UserLogserializer(serializers.ModelSerializer):
 
 class SentSMSSerializer(serializers.ModelSerializer):
     user = serializers.CharField(source="get_user")
+    reason = serializers.CharField(source="get_reason_display")
 
     class Meta:
         model = SentSMS

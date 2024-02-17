@@ -128,4 +128,5 @@ class SMSReportVS(ReadOnlyModelViewSet):
     queryset = models.SentSMS.objects.all()
     permission_classes = [IsAdmin]
     search_fields = ["phone_number"]
+    filterset_fields = ["reason"]
     ordering_fields = ["id"]
