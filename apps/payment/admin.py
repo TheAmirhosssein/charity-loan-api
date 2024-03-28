@@ -4,7 +4,7 @@ from apps.payment import models
 from apps.common.admin import BaseModelAdmin
 
 
-class UserAdmin(BaseModelAdmin):
+class PaymentAdmin(BaseModelAdmin):
     list_display = (
         "id",
         "payment_price",
@@ -13,7 +13,7 @@ class UserAdmin(BaseModelAdmin):
         "user",
     )
 
-    search_fields = "payment_date"
+    search_fields = ["payment_date"]
 
 
-admin.site.register(models.Payment)
+admin.site.register(models.Payment, PaymentAdmin)

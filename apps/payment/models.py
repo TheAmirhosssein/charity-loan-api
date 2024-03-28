@@ -25,7 +25,7 @@ class Payment(BaseModel):
 
     @property
     def payment_date_jalali(self):
-        return date2jalali(self.date_joined).strftime("%Y/%m/%d")
+        return date2jalali(self.payment_date).strftime("%Y/%m/%d")
 
     def __str__(self) -> str:
         return f"{self.user.get_full_name()} | {self.payment_date_jalali}"
