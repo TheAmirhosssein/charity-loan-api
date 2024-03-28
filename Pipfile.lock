@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "126a37c029229023379e704451d7ea3219beacb465393b4a5c03b08587b133cf"
+            "sha256": "708968aad10fa92a1b97e027c4e33902243f9174047e63d04983482aa307d1e6"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -18,11 +18,11 @@
     "default": {
         "asgiref": {
             "hashes": [
-                "sha256:89b2ef2247e3b562a16eef663bc0e2e703ec6468e2fa8a5cd61cd449786d4f6e",
-                "sha256:9e0ce3aa93a819ba5b45120216b23878cf6e8525eb3848653452b4192b92afed"
+                "sha256:3e1e3ecc849832fe52ccf2cb6686b7a55f82bb1d6aee72a58826471390335e47",
+                "sha256:c343bd80a0bec947a9860adb4c432ffa7db769836c64238fc34bdc3fec84d590"
             ],
-            "markers": "python_version >= '3.7'",
-            "version": "==3.7.2"
+            "markers": "python_version >= '3.8'",
+            "version": "==3.8.1"
         },
         "dj-database-url": {
             "hashes": [
@@ -50,6 +50,14 @@
             "markers": "python_version >= '3.7'",
             "version": "==23.5"
         },
+        "django-jalali-date": {
+            "hashes": [
+                "sha256:7561058ad4b5b58d959ce01db8835fb826b8dea34c1524063b4aa78e08ac16db"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3'",
+            "version": "==1.1.0"
+        },
         "django-resized": {
             "hashes": [
                 "sha256:52d727860f64ef4fdadbe2e74b66231c71c59df4d95949e338fcd320450f77fa",
@@ -75,6 +83,22 @@
             "index": "pypi",
             "markers": "python_version >= '3.8'",
             "version": "==5.3.1"
+        },
+        "jalali-core": {
+            "hashes": [
+                "sha256:84e6f5090eadfb35234f24fad084be831d00da3c0b238ee001e8a1fd49bf7924",
+                "sha256:f4287c70c630323dcf0a3ab26df905ba4d451e230ac1f65b3bb2f77797894a2b"
+            ],
+            "markers": "python_version >= '3.8'",
+            "version": "==1.0.0"
+        },
+        "jdatetime": {
+            "hashes": [
+                "sha256:2cc603d913c0d8e328928454d3d295261cb037e9950227f67c9629ab4710fdf9",
+                "sha256:37e23c710d7e9bde7c37d0cc3ff9e273323889790e902a1ef3ad99148f094fb9"
+            ],
+            "markers": "python_version >= '3.8'",
+            "version": "==5.0.0"
         },
         "pillow": {
             "hashes": [
@@ -264,11 +288,11 @@
         },
         "typing-extensions": {
             "hashes": [
-                "sha256:23478f88c37f27d76ac8aee6c905017a143b0b1b886c3c9f66bc2fd94f9f5783",
-                "sha256:af72aea155e91adfc61c3ae9e0e342dbc0cba726d6cba4b6c72c1f34e47291cd"
+                "sha256:69b1a937c3a517342112fb4c6df7e72fc39a38e7891a5730ed4985b5214b5475",
+                "sha256:b0abd7c89e8fb96f98db18d86106ff1d90ab692004eb746cf6eda2682f91b3cb"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==4.9.0"
+            "version": "==4.10.0"
         }
     },
     "develop": {}

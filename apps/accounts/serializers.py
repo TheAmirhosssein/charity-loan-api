@@ -22,6 +22,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
 class UserInfoSerializer(serializers.ModelSerializer):
     gender = serializers.CharField(source="get_gender_display")
+    date_joined = serializers.CharField(source="date_joined_jalali")
 
     class Meta:
         model = User
@@ -94,6 +95,8 @@ class UserLogserializer(serializers.ModelSerializer):
 class SentSMSSerializer(serializers.ModelSerializer):
     user = serializers.CharField(source="get_user")
     reason = serializers.CharField(source="get_reason_display")
+    created_at = serializers.CharField(source="created_at_jalali")
+    updated_at = serializers.CharField(source="updated_at_jalali")
 
     class Meta:
         model = SentSMS

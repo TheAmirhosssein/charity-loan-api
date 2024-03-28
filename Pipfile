@@ -13,6 +13,7 @@ django-resized = "1.0.2"
 pillow = "10.2.0"
 djangorestframework-simplejwt = "*"
 django-filter = "==23.5"
+django-jalali-date = "==1.1.0"
 
 [dev-packages]
 

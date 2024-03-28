@@ -1,6 +1,7 @@
 from django.db import models
 from apps.common.managers import BaseManager
 from django.utils import timezone
+from jalali_date import datetime2jalali
 
 
 class BaseModel(models.Model):
@@ -24,3 +25,11 @@ class BaseModel(models.Model):
             self.save()
         else:
             return super().delete()
+
+    @property
+    def created_at_jalali(self):
+        return datetime2jalali(self.created_at).strftime("%Y/%m/%d - %H:%M:%S")
+
+    @property
+    def updated_at_jalali(self):
+        return datetime2jalali(self.updated_at).strftime("%Y/%m/%d - %H:%M:%S")

@@ -10,6 +10,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django_resized import ResizedImageField
+from jalali_date import datetime2jalali
 
 from apps.accounts.managers import BaseUserManager
 from apps.common.models import BaseModel
@@ -109,6 +110,10 @@ class User(BaseModel, AbstractUser, PermissionsMixin):
             return True
         else:
             return False
+
+    @property
+    def date_joined_jalali(self):
+        return datetime2jalali(self.date_joined).strftime("%Y/%m/%d - %H:%M:%S")
 
 
 class OTPRequest(BaseModel):
