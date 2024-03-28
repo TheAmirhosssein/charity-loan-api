@@ -17,6 +17,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
             "gender",
             "avatar",
             "email",
+            "monthly_payment",
         ]
 
 
@@ -36,6 +37,7 @@ class UserInfoSerializer(serializers.ModelSerializer):
             "avatar",
             "email",
             "date_joined",
+            "monthly_payment",
         ]
 
 
@@ -69,6 +71,7 @@ class EditUserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["first_name", "last_name", "gender", "avatar"]
+        exreread_only_fields = ["monthly_payment"]
 
 
 class ShowUserInfoSerializer(serializers.ModelSerializer):

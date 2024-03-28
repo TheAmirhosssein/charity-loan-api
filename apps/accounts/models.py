@@ -79,6 +79,7 @@ class User(BaseModel, AbstractUser, PermissionsMixin):
     first_name = models.CharField(_("first name"), max_length=150)
     last_name = models.CharField(_("last name"), max_length=150)
     is_admin = models.BooleanField(_("is admin"), default=False)
+    monthly_payment = models.PositiveBigIntegerField(_("monthly price"))
 
     objects = BaseUserManager()
 
