@@ -1,10 +1,11 @@
-from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext as _
 from jalali_date import date2jalali
 
 from apps.common.models import BaseModel
+from apps.utils.validators import ValidateFileExtension
 
 User = get_user_model()
 
@@ -62,3 +63,20 @@ class PaymentRequest(BaseModel):
 
     def __str__(self) -> str:
         return f"{self.user.get_full_name()} | {self.paid_date}"
+
+
+class PaymentRequestAttachment(models.Model):
+    EXTENSIONS = [".png", ".jpg", ".jpeg", ".pdf"]
+
+    payment_request = models.ForeignKey(
+        PaymentRequest,
+        on_delete=models.CASCADE,
+        related_name="payment_request_attachment",
+        verbose_name=_("payment request"),
+    )
+    attachment = models.FileField(
+        _("attachment"), validators=[ValidateFileExtension(EXTENSIONS)]
+    )
+
+    def __str__(self) -> str:
+        return f"{self.payment_request.__str__} | {self.pk}"
