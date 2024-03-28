@@ -71,7 +71,7 @@ class EditUserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["first_name", "last_name", "gender", "avatar"]
-        exreread_only_fields = ["monthly_payment"]
+        read_only_fields = ["monthly_payment"]
 
 
 class ShowUserInfoSerializer(serializers.ModelSerializer):
