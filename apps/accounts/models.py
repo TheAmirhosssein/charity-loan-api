@@ -1,11 +1,9 @@
-import os
 import random
 import string
 import uuid
 from datetime import timedelta
 
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
-from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -14,7 +12,7 @@ from jalali_date import datetime2jalali
 
 from apps.accounts.managers import BaseUserManager
 from apps.common.models import BaseModel
-from apps.utils.validators import PhoneNumberValidator
+from apps.utils.validators import PhoneNumberValidator, ValidateFileExtension
 
 OTP_EXPIRED_TIME = 1
 
@@ -29,13 +27,6 @@ def create_refresh_time():
 
 def generate_otp():
     return "".join(random.choices(string.digits, k=6))
-
-
-def validate_image_extension(value):
-    ext = os.path.splitext(value.name)[1]
-    valid_extensions = [".png", ".jpg", ".jpeg"]
-    if ext.lower() not in valid_extensions:
-        raise ValidationError(_("images format is not valid"))
 
 
 class User(BaseModel, AbstractUser, PermissionsMixin):
@@ -65,7 +56,7 @@ class User(BaseModel, AbstractUser, PermissionsMixin):
         crop=["middle", "center"],
         quality=99,
         upload_to="avatar",
-        validators=[validate_image_extension],
+        validators=[ValidateFileExtension([".png", ".jpg", ".jpeg"])],
         max_length=500,
     )
     personal_code = models.CharField(
