@@ -17,4 +17,5 @@ urlpatterns = [
     path("verify-otp/", views.VerifyOTP.as_view(), name="verify_otp"),
     path("profile/", views.EditUserInfoAV.as_view(), name="profile"),
     path("refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("send-sms/", views.SendSMSAV.as_view(), name="send_sms"),
 ]

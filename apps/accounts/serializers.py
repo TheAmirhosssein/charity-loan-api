@@ -1,6 +1,7 @@
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 from drf_api_logger.models import APILogsModel
+from apps.utils.validators import PhoneNumberValidator
 
 from apps.accounts.models import User, SentSMS
 
@@ -48,7 +49,7 @@ class SendOTPSerializer(serializers.Serializer):
         ).first()
         if user is None:
             raise serializers.ValidationError(
-                _("no user exists with entered information")
+                _("no user `exists` with entered information")
             )
         elif not user.can_create_otp():
             raise serializers.ValidationError(
@@ -97,3 +98,14 @@ class SentSMSSerializer(serializers.ModelSerializer):
     class Meta:
         model = SentSMS
         exclude = ["deleted", "deleted_at"]
+
+
+class SendSMSSerializer(serializers.Serializer):
+    phone_numbers = serializers.ListField(child=serializers.CharField())
+    text = serializers.CharField()
+
+    def validate_phone_numbers(self, phone_numbers):
+        validator = PhoneNumberValidator()
+        for phone_number in phone_numbers:
+            validator(phone_number)
+        return phone_numbers

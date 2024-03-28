@@ -130,3 +130,18 @@ class SMSReportVS(ReadOnlyModelViewSet):
     search_fields = ["phone_number"]
     filterset_fields = ["reason"]
     ordering_fields = ["id"]
+
+
+class SendSMSAV(APIView):
+    permission_classes = [IsAdmin]
+
+    def post(self, request):
+        serializer = serializers.SendSMSSerializer(data=request.data)
+        if serializer.is_valid():
+            SendSMS.multiple_send(
+                serializer.validated_data["phone_numbers"],
+                serializer.validated_data["text"],
+            )
+            return Response({"response": _("SMS sent")}, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors)

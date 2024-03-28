@@ -6,21 +6,17 @@ from django.utils import timezone
 
 class BaseManager(models.Manager):
     def filter(self, *args: Any, **kwargs: Any):
-        return (
-            super()
-            .filter(
-                deleted=False,
-                *args,
-                **kwargs,
-            )
-            .order_by("-created_at")
+        return super().filter(
+            deleted=False,
+            *args,
+            **kwargs,
         )
 
     def get(self, *args: Any, **kwargs: Any) -> Any:
         return super().get(deleted=False, *args, **kwargs)
 
     def all(self):
-        return super().all().exclude(deleted=True).order_by("-created_at")
+        return super().all().exclude(deleted=True)
 
     def get_queryset(self):
         return super().get_queryset().exclude(deleted=True)

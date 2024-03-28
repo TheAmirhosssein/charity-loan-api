@@ -15,6 +15,7 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
+        ordering = ["created_at"]
 
     def delete(self) -> tuple[int, dict[str, int]] | None:
         if self.SOFT_DELETE:

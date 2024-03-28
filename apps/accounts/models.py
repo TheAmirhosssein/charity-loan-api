@@ -6,7 +6,6 @@ from datetime import timedelta
 
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.core.exceptions import ValidationError
-from django.core.validators import RegexValidator
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -14,6 +13,7 @@ from django_resized import ResizedImageField
 
 from apps.accounts.managers import BaseUserManager
 from apps.common.models import BaseModel
+from apps.utils.validators import PhoneNumberValidator
 
 OTP_EXPIRED_TIME = 1
 
@@ -35,11 +35,6 @@ def validate_image_extension(value):
     valid_extensions = [".png", ".jpg", ".jpeg"]
     if ext.lower() not in valid_extensions:
         raise ValidationError(_("images format is not valid"))
-
-
-class PhoneNumberValidator(RegexValidator):
-    regex = r"^(?:98|\+98|0098|0)?9[0-9]{9}$"
-    message = _("mobile phone format is not valid")
 
 
 class User(BaseModel, AbstractUser, PermissionsMixin):
@@ -159,6 +154,7 @@ class OTPRequest(BaseModel):
 
 class SentSMS(BaseModel):
     REASONS = [("OTP", _("send otp code"))]
+    REASONS = [("CM", _("custom message"))]
 
     phone_number = models.CharField(_("phone number"), max_length=50)
     text = models.TextField()

@@ -59,7 +59,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # costume middlewares
     "apps.api.middlewares.TransactionMiddleware",
-    "drf_api_logger.middleware.api_logger_middleware.APILoggerMiddleware",
 ]
 
 
