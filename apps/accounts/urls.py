@@ -12,7 +12,7 @@ router.register("log", views.UserLogVS, basename="user_log")
 router.register("sent-sms", views.SMSReportVS, basename="sent_sms")
 
 urlpatterns = [
-    path("", include(router.urls), name="create_user"),
+    path("", include(router.urls)),
     path("send-otp/", views.SendOTP.as_view(), name="send_otp"),
     path("verify-otp/", views.VerifyOTP.as_view(), name="verify_otp"),
     path("profile/", views.EditUserInfoAV.as_view(), name="profile"),
