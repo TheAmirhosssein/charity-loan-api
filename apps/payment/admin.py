@@ -18,3 +18,4 @@ class PaymentAdmin(BaseModelAdmin):
 
 admin.site.register(models.Payment, PaymentAdmin)
 admin.site.register(models.PaymentRequest)
+admin.site.register(models.PaymentRequestAttachment)

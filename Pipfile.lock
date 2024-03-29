@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "708968aad10fa92a1b97e027c4e33902243f9174047e63d04983482aa307d1e6"
+            "sha256": "ed38807728f4ff0f32fb5ccb143c9cb952aad7058ac64e21e19da4b17d0d2052"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -83,6 +83,15 @@
             "index": "pypi",
             "markers": "python_version >= '3.8'",
             "version": "==5.3.1"
+        },
+        "drf-nested-routers": {
+            "hashes": [
+                "sha256:1407565abc7bada37c162c7e11bf214ae71625a17fdec6d9a47a17f4a3627d32",
+                "sha256:9a6813554020134a02e62f8c2934b2047717f7da06f8b801752c521e43735c63"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.8'",
+            "version": "==0.93.5"
         },
         "jalali-core": {
             "hashes": [

@@ -12,7 +12,7 @@ services:
       context: .
     volumes:
       - ./:/app
-      - media:/app/media/
+      - ./media:/app/media/
     ports:
       - "8000:8000"
     command: >
@@ -24,4 +24,3 @@ services:
 
 volumes:
   data:
-  media:

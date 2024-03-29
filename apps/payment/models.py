@@ -70,7 +70,7 @@ class PaymentRequest(BaseModel):
         return f"{self.user.get_full_name()} | {self.paid_date}"
 
 
-class PaymentRequestAttachment(models.Model):
+class PaymentRequestAttachment(BaseModel):
     EXTENSIONS = [".png", ".jpg", ".jpeg", ".pdf"]
 
     payment_request = models.ForeignKey(
@@ -83,5 +83,7 @@ class PaymentRequestAttachment(models.Model):
         _("attachment"), validators=[ValidateFileExtension(EXTENSIONS)]
     )
 
+    SOFT_DELETE = False
+
     def __str__(self) -> str:
-        return f"{self.payment_request.__str__} | {self.pk}"
+        return f"{self.payment_request} | {self.pk}"
