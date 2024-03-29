@@ -14,8 +14,15 @@ class PaymentRequestUser(ModelViewSet):
     def perform_create(self, serializer):
         return serializer.save(user=self.request.user)
 
+    def get_serializer_class(self, *args, **kwargs):
+        if self.request.method == "GET":
+            return serializers.PaymentRequestInfo
+        return self.serializer_class
+
     def get_queryset(self):
-        return models.PaymentRequest.objects.filter(user=self.request.user)
+        return models.PaymentRequest.objects.filter(
+            user=self.request.user
+        ).prefetch_related("payment_request_attachment")
 
     def destroy(self, request, *args, **kwargs):
         if self.get_object().is_confirmed:
