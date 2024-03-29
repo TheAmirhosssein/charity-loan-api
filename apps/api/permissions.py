@@ -9,3 +9,12 @@ class IsAdmin(permissions.BasePermission):
             else:
                 return False
         return False
+
+
+class IsAdminOrAuthorNested(permissions.BasePermission):
+    def has_permission(self, request, view, *args, **kwargs):
+        if request.user.is_admin_user:
+            return True
+
+        user = getattr(view.get_parent_object(), view.user_field)
+        return user == request.user
