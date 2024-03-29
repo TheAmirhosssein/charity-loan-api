@@ -6,6 +6,7 @@ from jalali_date import date2jalali
 
 from apps.common.models import BaseModel
 from apps.utils.validators import ValidateFileExtension
+from apps.utils.date_convertor import jalali_to_gregorian
 
 User = get_user_model()
 
@@ -46,6 +47,10 @@ class PaymentRequest(BaseModel):
     @property
     def paid_date_jalali(self):
         return date2jalali(self.paid_date).strftime("%Y/%m/%d")
+
+    @paid_date_jalali.setter
+    def paid_date_jalali(self, value: str):
+        self.paid_date = jalali_to_gregorian(value)
 
     def confirm(self):
         if not self.confirm:
