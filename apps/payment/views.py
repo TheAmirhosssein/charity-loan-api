@@ -3,7 +3,6 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from django.shortcuts import get_object_or_404, get_list_or_404
 
 from apps.payment import models, serializers
 
@@ -39,16 +38,17 @@ class PaymentRequestAttachmentVS(ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        request = get_object_or_404(
-            models.PaymentRequest,
+        request = models.PaymentRequest.objects.get_object_or_admin_or_404(
             user=self.request.user,
+            user_pk=self.request.user.pk,
             pk=self.kwargs["payment_request_pk"],
         )
         return serializer.save(payment_request=request)
 
     def get_queryset(self):
-        return get_list_or_404(
-            models.PaymentRequestAttachment.objects,
-            payment_request__user=self.request.user,
+        return models.PaymentRequestAttachment.objects.get_list_or_admin_or_404(
+            user=self.request.user,
+            field="payment_request__user_pk",
+            payment_request__user_pk=self.request.user.pk,
             payment_request__pk=self.kwargs["payment_request_pk"],
         )

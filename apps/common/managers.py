@@ -1,6 +1,7 @@
 from typing import Any
 
 from django.db import models
+from django.http import Http404
 from django.utils import timezone
 
 
@@ -23,3 +24,19 @@ class BaseManager(models.Manager):
 
     def delete(self):
         self.update(deleted=True, deleted_at=timezone.now())
+
+    def get_object_or_admin_or_404(self, user, field: str, *args, **kwargs):
+        if user.is_admin_user:
+            del kwargs[field]
+        try:
+            return self.get(*args, **kwargs)
+        except Exception:
+            raise Http404()
+
+    def get_list_or_admin_or_404(self, user, field: str, *args, **kwargs):
+        if user.is_admin_user:
+            del kwargs[field]
+        try:
+            return self.filter(*args, **kwargs)
+        except Exception:
+            raise Http404()

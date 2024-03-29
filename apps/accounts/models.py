@@ -107,6 +107,10 @@ class User(BaseModel, AbstractUser, PermissionsMixin):
     def date_joined_jalali(self):
         return datetime2jalali(self.date_joined).strftime("%Y/%m/%d - %H:%M:%S")
 
+    @property
+    def is_admin_user(self):
+        return self.is_admin
+
 
 class OTPRequest(BaseModel):
     user = models.ForeignKey(
