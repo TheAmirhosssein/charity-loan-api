@@ -4,6 +4,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
+from django.shortcuts import get_object_or_404
+from apps.api.permissions import IsAdminOrAuthorNested
 from apps.payment import models, serializers
 
 
@@ -17,11 +19,13 @@ class PaymentRequestUserVS(ModelViewSet):
     def get_serializer_class(self, *args, **kwargs):
         if self.request.method == "GET":
             return serializers.PaymentRequestInfoSerializer
+        elif self.request.user.is_admin_user:
+            return serializers.PaymentRequestAdminSerializer
         return self.serializer_class
 
     def get_queryset(self):
-        return models.PaymentRequest.objects.filter(
-            user=self.request.user
+        return models.PaymentRequest.objects.all_admin_filtered_users(
+            user=self.request.user, user__pk=self.request.user.pk
         ).prefetch_related("payment_request_attachment")
 
     def destroy(self, request, *args, **kwargs):
@@ -32,23 +36,28 @@ class PaymentRequestUserVS(ModelViewSet):
             )
         return super().destroy(request, *args, **kwargs)
 
+    def update(self, request, *args, **kwargs):
+        update_response = super().update(request, *args, **kwargs)
+        payment_request: models.PaymentRequest = self.get_object()
+        if self.request.user.is_admin_user:
+            if payment_request.is_confirmed:
+                payment_request.confirm()
+            else:
+                payment_request.undo_confirm()
+        return update_response
+
 
 class PaymentRequestAttachmentVS(ModelViewSet):
     serializer_class = serializers.PaymentRequestAttachmentSerializer
-    permission_classes = [IsAuthenticated]
+    queryset = models.PaymentRequestAttachment.objects.all()
+    permission_classes = [IsAuthenticated, IsAdminOrAuthorNested]
+    user_field = "user"
 
     def perform_create(self, serializer):
-        request = models.PaymentRequest.objects.get_object_or_admin_or_404(
-            user=self.request.user,
-            user_pk=self.request.user.pk,
-            pk=self.kwargs["payment_request_pk"],
-        )
-        return serializer.save(payment_request=request)
+        return serializer.save(payment_request=self.get_parent_object)
 
-    def get_queryset(self):
-        return models.PaymentRequestAttachment.objects.get_list_or_admin_or_404(
-            user=self.request.user,
-            field="payment_request__user_pk",
-            payment_request__user_pk=self.request.user.pk,
-            payment_request__pk=self.kwargs["payment_request_pk"],
+    def get_parent_object(self) -> models.PaymentRequest:
+        payment_request = get_object_or_404(
+            models.PaymentRequest, pk=self.kwargs["payment_request_pk"]
         )
+        return payment_request

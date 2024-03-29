@@ -52,8 +52,11 @@ class PaymentRequest(BaseModel):
     def paid_date_jalali(self, value: str):
         self.paid_date = jalali_to_gregorian(value)
 
+    def get_payment(self) -> Payment | None:
+        return Payment.objects.filter(other_info__request_id=self.pk).first()
+
     def confirm(self):
-        if not self.confirm:
+        if self.get_payment() is None:
             Payment.objects.create(
                 user=self.user,
                 payment_date=self.paid_date,
@@ -63,7 +66,7 @@ class PaymentRequest(BaseModel):
             )
 
     def undo_confirm(self):
-        if self.confirm:
+        if self.get_payment() is not None:
             Payment.objects.filter(other_info__request_id=self.pk).delete()
 
     def __str__(self) -> str:

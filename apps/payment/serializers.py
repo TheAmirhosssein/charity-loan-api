@@ -27,10 +27,19 @@ class PaymentRequestInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.PaymentRequest
         fields = [
-            "paid_price",
+            "id",
+            "" "paid_price",
             "paid_date_jalali",
             "is_confirmed",
             "payment_request_attachment",
             "user",
             "user_full_name",
         ]
+
+
+class PaymentRequestAdminSerializer(serializers.ModelSerializer):
+    paid_date_jalali = serializers.DateField(format="YYYY-MM-DD")
+
+    class Meta:
+        model = models.PaymentRequest
+        fields = ["paid_price", "paid_date_jalali", "is_confirmed"]
