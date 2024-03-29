@@ -10,16 +10,24 @@ class PaymentRequestSerializer(serializers.ModelSerializer):
         fields = ["paid_price", "paid_date_jalali"]
 
 
-class PaymentRequestInfoSerializer(serializers.ModelSerializer):
-    paid_date_jalali = serializers.DateField(format="YYYY-MM-DD")
-
-    class Meta:
-        model = models.PaymentRequest
-        fields = ["paid_price", "paid_date_jalali", "is_confirmed"]
-
-
 class PaymentRequestAttachmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.PaymentRequestAttachment
-        fields = ["payment_request", "attachment"]
-        read_only_fields = ["payment_request"]
+        fields = ["id", "payment_request", "attachment"]
+        read_only_fields = ["payment_request", "id"]
+
+
+class PaymentRequestInfoSerializer(serializers.ModelSerializer):
+    paid_date_jalali = serializers.DateField(format="YYYY-MM-DD")
+    payment_request_attachment = PaymentRequestAttachmentSerializer(
+        many=True, read_only=True
+    )
+
+    class Meta:
+        model = models.PaymentRequest
+        fields = [
+            "paid_price",
+            "paid_date_jalali",
+            "is_confirmed",
+            "payment_request_attachment",
+        ]
