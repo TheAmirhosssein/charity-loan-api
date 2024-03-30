@@ -29,6 +29,10 @@ class Payment(BaseModel):
     def payment_date_jalali(self):
         return date2jalali(self.payment_date).strftime("%Y/%m/%d")
 
+    @payment_date_jalali.setter
+    def payment_date_jalali(self, value):
+        self.payment_date = jalali_to_gregorian(value)
+
     def __str__(self) -> str:
         return f"{self.user.get_full_name()} | {self.payment_date_jalali}"
 
