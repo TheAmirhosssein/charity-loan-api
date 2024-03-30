@@ -61,3 +61,15 @@ class PaymentSerializerInfo(serializers.ModelSerializer):
             "payment_type",
             "other_info",
         ]
+
+
+class PaymentSerializer(serializers.ModelSerializer):
+    payment_date_jalali = serializers.DateField(format="YYYY-MM-DD")
+
+    class Meta:
+        model = models.Payment
+        fields = [
+            "payment_price",
+            "payment_date_jalali",
+            "user",
+        ]

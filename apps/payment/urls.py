@@ -11,7 +11,7 @@ router.register(
     "payment-request", views.PaymentRequestUserVS, basename="payment-request"
 )
 router.register("payment-user", views.PaymentUserVS, basename="payment-user")
-
+router.register("payment-admin", views.PaymentAdminVS, basename="payment-admin")
 
 attachment_router = routers.NestedSimpleRouter(
     router, "payment-request", lookup="payment_request"

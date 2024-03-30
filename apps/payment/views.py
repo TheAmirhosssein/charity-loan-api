@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
 from django.shortcuts import get_object_or_404
-from apps.api.permissions import IsAdminOrAuthorNested
+from apps.api.permissions import IsAdminOrAuthorNested, IsAdmin
 from apps.payment import models, serializers
 
 
@@ -69,3 +69,17 @@ class PaymentUserVS(ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return models.Payment.objects.filter(user=self.request.user)
+
+
+class PaymentAdminVS(ModelViewSet):
+    serializer_class = serializers.PaymentSerializer
+    queryset = models.Payment.objects.all()
+    permission_classes = [IsAdmin]
+
+    def perform_create(self, serializer):
+        return serializer.save(payment_type="MA")
+
+    def get_serializer_class(self, *args, **kwargs):
+        if self.request.method == "GET":
+            return serializers.PaymentSerializerInfo
+        return self.serializer_class
