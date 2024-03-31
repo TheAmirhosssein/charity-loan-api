@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 
 from conf.apps_settings.drf import rest_framework_settings
 from conf.apps_settings.jwt import simple_jwt
+from conf.apps_settings.swagger import drf_yasg
 
 load_dotenv(".env")
 
@@ -140,6 +141,7 @@ AUTH_USER_MODEL = "accounts.User"
 
 REST_FRAMEWORK = rest_framework_settings()
 SIMPLE_JWT = simple_jwt()
+SWAGGER_SETTINGS = drf_yasg()
 
 DRF_API_LOGGER_DATABASE = True
 
