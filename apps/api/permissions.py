@@ -18,3 +18,14 @@ class IsAdminOrAuthorNested(permissions.BasePermission):
 
         user = getattr(view.get_parent_object(), view.user_field)
         return user == request.user
+
+
+class IsAdminOrReadOnly(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return bool(
+            (
+                request.method in permissions.SAFE_METHODS
+                and request.user.is_authenticated
+            )
+            or request.user.is_admin_user
+        )

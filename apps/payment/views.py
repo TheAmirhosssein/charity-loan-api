@@ -2,10 +2,10 @@ from django.utils.translation import gettext as _
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+from rest_framework.viewsets import ModelViewSet
 
 from django.shortcuts import get_object_or_404
-from apps.api.permissions import IsAdminOrAuthorNested, IsAdmin
+from apps.api.permissions import IsAdminOrAuthorNested, IsAdminOrReadOnly
 from apps.payment import models, serializers
 
 
@@ -63,18 +63,10 @@ class PaymentRequestAttachmentVS(ModelViewSet):
         return payment_request
 
 
-class PaymentUserVS(ReadOnlyModelViewSet):
-    serializer_class = serializers.PaymentSerializerInfo
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        return models.Payment.objects.filter(user=self.request.user)
-
-
 class PaymentAdminVS(ModelViewSet):
     serializer_class = serializers.PaymentSerializer
     queryset = models.Payment.objects.all()
-    permission_classes = [IsAdmin]
+    permission_classes = [IsAdminOrReadOnly]
 
     def perform_create(self, serializer):
         return serializer.save(payment_type="MA")
@@ -83,3 +75,8 @@ class PaymentAdminVS(ModelViewSet):
         if self.request.method == "GET":
             return serializers.PaymentSerializerInfo
         return self.serializer_class
+
+    def get_queryset(self):
+        return models.Payment.objects.all_admin_filtered_users(
+            user=self.request.user, user_id=self.request.user.pk
+        )
