@@ -120,7 +120,7 @@ class UserLogVS(ReadOnlyModelViewSet):
     serializer_class = serializers.UserLogserializer
     queryset = APILogsModel.objects.all()
     permission_classes = [IsAdmin]
-    filter_backends = ["method", "status_code"]
+    filterset_fields = ["method", "status_code"]
 
 
 class SMSReportVS(ReadOnlyModelViewSet):
