@@ -76,6 +76,7 @@ class EditUserInfoSerializer(serializers.ModelSerializer):
 
 class ShowUserInfoSerializer(serializers.ModelSerializer):
     gender = serializers.CharField(source="get_gender_display")
+    is_admin_user = serializers.BooleanField()
 
     class Meta:
         model = User
@@ -86,6 +87,7 @@ class ShowUserInfoSerializer(serializers.ModelSerializer):
             "avatar",
             "personal_code",
             "phone_number",
+            "is_admin_user",
         ]
 
 
