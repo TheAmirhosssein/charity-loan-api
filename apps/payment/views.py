@@ -12,6 +12,9 @@ from apps.payment import models, serializers
 class PaymentRequestUserVS(ModelViewSet):
     serializer_class = serializers.PaymentRequestSerializer
     permission_classes = [IsAuthenticated]
+    filterset_fields = ["user", "is_confirmed"]
+    ordering_fields = ["id", "paid_price", "paid_date"]
+    search_fields = ["paid_price", "paid_date"]
 
     def perform_create(self, serializer):
         return serializer.save(user=self.request.user)
@@ -67,6 +70,9 @@ class PaymentAdminVS(ModelViewSet):
     serializer_class = serializers.PaymentSerializer
     queryset = models.Payment.objects.all()
     permission_classes = [IsAdminOrReadOnly]
+    filterset_fields = ["user"]
+    ordering_fields = ["id", "payment_price", "payment_date"]
+    search_fields = ["payment_price", "payment_date"]
 
     def perform_create(self, serializer):
         return serializer.save(payment_type="MA")
