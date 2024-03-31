@@ -11,11 +11,11 @@ dj-database-url = "2.1.0"
 psycopg2-binary = "2.9.9"
 django-resized = "1.0.2"
 pillow = "10.2.0"
-djangorestframework-simplejwt = "*"
+djangorestframework-simplejwt = "==5.3.1"
 django-filter = "==23.5"
 django-jalali-date = "==1.1.0"
-drf-nested-routers = "*"
-django-apscheduler = "*"
+drf-nested-routers = "==0.93.5"
+django-apscheduler = "==0.6.2"
 
 [dev-packages]
 
