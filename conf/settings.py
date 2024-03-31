@@ -39,6 +39,7 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "drf_api_logger",
     "django_filters",
+    "django_apscheduler",
 ]
 
 LOCAL_APPS = [
@@ -140,3 +141,5 @@ REST_FRAMEWORK = rest_framework_settings()
 SIMPLE_JWT = simple_jwt()
 
 DRF_API_LOGGER_DATABASE = True
+
+SCHEDULER_ALLOWED_HOSTS = ALLOWED_HOSTS

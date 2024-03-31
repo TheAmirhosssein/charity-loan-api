@@ -15,6 +15,7 @@ djangorestframework-simplejwt = "*"
 django-filter = "==23.5"
 django-jalali-date = "==1.1.0"
 drf-nested-routers = "*"
+django-apscheduler = "*"
 
 [dev-packages]
 
