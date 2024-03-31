@@ -40,6 +40,7 @@ THIRD_PARTY_APPS = [
     "drf_api_logger",
     "django_filters",
     "django_apscheduler",
+    "drf_yasg",
 ]
 
 LOCAL_APPS = [

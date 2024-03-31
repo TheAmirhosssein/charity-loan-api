@@ -25,6 +25,8 @@ class BaseManager(models.Manager):
         self.update(deleted=True, deleted_at=timezone.now())
 
     def all_admin_filtered_users(self, user, *args, **kwargs):
+        if not user.is_authenticated:
+            return self.none()
         if user.is_admin_user:
             return self.all()
         else:

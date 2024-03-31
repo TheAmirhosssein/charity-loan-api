@@ -11,6 +11,5 @@ def rest_framework_settings():
             "rest_framework.filters.SearchFilter",
             "rest_framework.filters.OrderingFilter",
         ],
-        "DEFAULT_PAGINATION_CLASS": "apps.api.pagination.SimpleListPagination",
     }
     return rest_settings
