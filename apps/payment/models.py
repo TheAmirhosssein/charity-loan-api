@@ -7,6 +7,7 @@ from jalali_date import date2jalali
 from apps.common.models import BaseModel
 from apps.utils.validators import ValidateFileExtension
 from apps.utils.date_convertor import jalali_to_gregorian
+from apps.payment.managers import PaymentManagers
 
 User = get_user_model()
 
@@ -24,6 +25,8 @@ class Payment(BaseModel):
     payment_date = models.DateField(_("payment date"), default=timezone.now)
     payment_type = models.CharField(_("payment type"), choices=TYPES, max_length=5)
     other_info = models.JSONField(default=dict)
+
+    objects = PaymentManagers()
 
     @property
     def payment_date_jalali(self):
