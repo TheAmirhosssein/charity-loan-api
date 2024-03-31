@@ -60,6 +60,8 @@ class PaymentSerializerInfo(serializers.ModelSerializer):
             "user_full_name",
             "payment_type",
             "other_info",
+            "created_at_jalali",
+            "updated_at_jalali",
         ]
 
 
