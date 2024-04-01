@@ -1,11 +1,14 @@
+import datetime
 import random
 from typing import List
 
 from django.contrib.auth.models import UserManager
 from django.utils.translation import gettext_lazy as _
+from jalali_date import date2jalali
 
 from apps.accounts import models
 from apps.common.managers import BaseManager
+from apps.utils.date import range_to_end_month
 
 
 class BaseUserManager(BaseManager, UserManager):
@@ -17,7 +20,7 @@ class BaseUserManager(BaseManager, UserManager):
         phone_number: str,
         email: str,
         password=None,
-        **extra_fields
+        **extra_fields,
     ):
         if not personal_code:
             raise ValueError(_("User must have a personal code"))
@@ -44,13 +47,34 @@ class BaseUserManager(BaseManager, UserManager):
         user.save(using=self._db)
         return user
 
-    def lottery(self, count: int, *args, **kwargs) -> List:
-        users = list(self.filter(*args, **kwargs))
+    def lottery(self, count: int, duplicate: bool = False, *args, **kwargs) -> List:
+        users = (
+            models.Winners.objects.available_users(*args, **kwargs)
+            if not duplicate
+            else list(self.filter(*args, **kwargs))
+        )
         if count > len(users) or count <= 0:
             raise ValueError(
-                _("Given count is larger than users population or bellow 1")
+                _(
+                    f"Given count is larger than users population or bellow 1. Max population is: {len(users)}"
+                )
             )
         winners = random.sample(users, count)
         [models.Winners.objects.create(user_id=user.pk) for user in winners]
         winners_object = self.filter(pk__in=[user.pk for user in winners])
         return winners_object
+
+
+class WinnersManager(BaseUserManager):
+    def available_users(self, *args, **kwargs) -> List:
+        current_date = str(date2jalali(datetime.date.today())).split("-")
+        month_range = range_to_end_month(f"{current_date[0]}-{current_date[1]}-01")
+        old_winners = self.filter(
+            created_at__date__range=[month_range[0], month_range[1]],
+        )
+        users = list(
+            models.User.objects.filter(*args, **kwargs).exclude(
+                id__in=[old_winners.values_list("user_id")]
+            )
+        )
+        return users

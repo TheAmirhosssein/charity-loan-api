@@ -178,7 +178,9 @@ class Lottery(APIView):
         if serializer.is_valid():
             try:
                 winners = User.objects.lottery(
-                    is_admin=False, count=serializer.validated_data["count"]
+                    is_admin=False,
+                    count=serializer.validated_data["count"],
+                    duplicate=serializer.validated_data["duplicate_user"],
                 )
             except ValueError as e:
                 return Response({"detail": str(e)}, status.HTTP_400_BAD_REQUEST)

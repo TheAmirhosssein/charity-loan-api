@@ -11,7 +11,7 @@ def jalali_to_gregorian(date: datetime.date | str) -> datetime.date:
     date_pattern = re.compile(r"\d{4}-\d{2}-\d{2}")
     if not re.match(date_pattern, date):
         raise ValidationError(
-            "Date has wrong format. Use one of these formats instead: YYYY-MM-DD."
+            f"Date has wrong format {date}: . Use one of these formats instead: YYYY-MM-DD."
         )
     else:
         splitted_date: list = [int(date) for date in date.split("-")]

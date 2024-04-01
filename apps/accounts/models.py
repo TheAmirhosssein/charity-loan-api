@@ -10,7 +10,7 @@ from django.utils.translation import gettext_lazy as _
 from django_resized import ResizedImageField
 from jalali_date import datetime2jalali
 
-from apps.accounts.managers import BaseUserManager
+from apps.accounts.managers import BaseUserManager, WinnersManager
 from apps.common.models import BaseModel
 from apps.utils.validators import PhoneNumberValidator, ValidateFileExtension
 
@@ -171,6 +171,8 @@ class SentSMS(BaseModel):
 
 class Winners(BaseModel):
     user = models.ForeignKey(User, verbose_name=_("user"), on_delete=models.CASCADE)
+
+    objects = WinnersManager()
 
     def __str__(self) -> str:
         return f"{self.created_at_jalali} | {self.user}"

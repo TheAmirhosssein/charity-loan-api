@@ -131,3 +131,4 @@ class WinnersInfo(serializers.ModelSerializer):
 
 class LotterySerializer(serializers.Serializer):
     count = serializers.IntegerField()
+    duplicate_user = serializers.BooleanField()
