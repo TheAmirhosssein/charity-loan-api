@@ -167,3 +167,10 @@ class SentSMS(BaseModel):
     def get_user(self) -> User | None:
         user = User.objects.filter(phone_number=self.phone_number).first()
         return user
+
+
+class Winners(BaseModel):
+    user = models.ForeignKey(User, verbose_name=_("user"), on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.created_at_jalali} | {self.user}"
