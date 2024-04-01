@@ -22,13 +22,13 @@ class PaymentRequestInfoSerializer(serializers.ModelSerializer):
     payment_request_attachment = PaymentRequestAttachmentSerializer(
         many=True, read_only=True
     )
-    user_full_name = serializers.CharField(source="user")
+    user_full_name = serializers.StringRelatedField(source="user")
 
     class Meta:
         model = models.PaymentRequest
         fields = [
             "id",
-            "" "paid_price",
+            "paid_price",
             "paid_date_jalali",
             "is_confirmed",
             "payment_request_attachment",
@@ -47,7 +47,7 @@ class PaymentRequestAdminSerializer(serializers.ModelSerializer):
 
 class PaymentSerializerInfo(serializers.ModelSerializer):
     payment_date_jalali = serializers.DateField(format="YYYY-MM-DD")
-    user_full_name = serializers.CharField(source="user")
+    user_full_name = serializers.StringRelatedField(source="user")
     payment_type = serializers.CharField(source="get_payment_type_display")
 
     class Meta:

@@ -3,7 +3,7 @@ from rest_framework import serializers
 from drf_api_logger.models import APILogsModel
 from apps.utils.validators import PhoneNumberValidator
 
-from apps.accounts.models import User, SentSMS
+from apps.accounts.models import User, SentSMS, Winners
 
 
 class CreateUserSerializer(serializers.ModelSerializer):
@@ -91,7 +91,7 @@ class ShowUserInfoSerializer(serializers.ModelSerializer):
         ]
 
 
-class UserLogserializer(serializers.ModelSerializer):
+class UserLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = APILogsModel
         fields = ["body", "api", "method", "status_code"]
@@ -117,3 +117,13 @@ class SendSMSSerializer(serializers.Serializer):
         for phone_number in phone_numbers:
             validator(phone_number)
         return phone_numbers
+
+
+class WinnersInfo(serializers.ModelSerializer):
+    created_at = serializers.CharField(source="created_at_jalali")
+    updated_at = serializers.CharField(source="updated_at_jalali")
+    user_full_name = serializers.StringRelatedField(source="user")
+
+    class Meta:
+        model = Winners
+        fields = ["id", "user", "created_at", "updated_at", "user_full_name"]

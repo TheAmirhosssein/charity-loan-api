@@ -12,7 +12,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.accounts import models, serializers
 from apps.utils.senders import SendSMS
-from apps.api.permissions import IsAdmin
+from apps.api.permissions import IsAdmin, IsAdminOrReadOnly
 
 User = get_user_model()
 
@@ -117,7 +117,7 @@ class EditUserInfoAV(RetrieveUpdateAPIView):
 
 
 class UserLogVS(ReadOnlyModelViewSet):
-    serializer_class = serializers.UserLogserializer
+    serializer_class = serializers.UserLogSerializer
     queryset = APILogsModel.objects.all()
     permission_classes = [IsAdmin]
     filterset_fields = ["method", "status_code"]
@@ -145,3 +145,9 @@ class SendSMSAV(APIView):
             return Response({"response": _("SMS sent")}, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors)
+
+
+class WinnersVS(ModelViewSet):
+    queryset = models.Winners.objects.all()
+    serializer_class = serializers.WinnersInfo
+    permission_classes = [IsAdminOrReadOnly]

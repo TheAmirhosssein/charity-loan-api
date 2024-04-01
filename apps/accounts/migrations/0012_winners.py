@@ -8,23 +8,41 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0011_alter_user_avatar'),
+        ("accounts", "0011_alter_user_avatar"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Winners',
+            name="Winners",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('deleted_at', models.DateTimeField(blank=True, editable=False, null=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('deleted', models.BooleanField(default=False, editable=False)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='user')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "deleted_at",
+                    models.DateTimeField(blank=True, editable=False, null=True),
+                ),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("deleted", models.BooleanField(default=False, editable=False)),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="user",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['created_at'],
-                'abstract': False,
+                "ordering": ["created_at"],
+                "abstract": False,
             },
         ),
     ]
