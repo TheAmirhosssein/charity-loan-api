@@ -11,8 +11,9 @@ from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.accounts import models, serializers
-from apps.utils.senders import SendSMS
 from apps.api.permissions import IsAdmin, IsAdminOrReadOnly
+from apps.utils.date import range_to_end_month
+from apps.utils.senders import SendSMS
 
 User = get_user_model()
 
@@ -151,3 +152,19 @@ class WinnersVS(ModelViewSet):
     queryset = models.Winners.objects.all()
     serializer_class = serializers.WinnersInfo
     permission_classes = [IsAdminOrReadOnly]
+    search_fields = ["date"]
+    filterset_fields = ["user"]
+    ordering_fields = ["id"]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        date = self.request.GET.get("date")
+        if date in ["", None]:
+            return queryset
+        try:
+            gregorian_date = range_to_end_month(date)
+            return queryset.filter(
+                created_at__range=[gregorian_date[0], gregorian_date[1]]
+            )
+        except Exception:
+            return queryset.none()

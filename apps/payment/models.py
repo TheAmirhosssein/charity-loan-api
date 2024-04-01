@@ -6,7 +6,7 @@ from jalali_date import date2jalali
 
 from apps.common.models import BaseModel
 from apps.utils.validators import ValidateFileExtension
-from apps.utils.date_convertor import jalali_to_gregorian
+from apps.utils.date import jalali_to_gregorian
 from apps.payment.managers import PaymentManagers
 
 User = get_user_model()
