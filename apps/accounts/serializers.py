@@ -127,3 +127,7 @@ class WinnersInfo(serializers.ModelSerializer):
     class Meta:
         model = Winners
         fields = ["id", "user", "created_at", "updated_at", "user_full_name"]
+
+
+class LotterySerializer(serializers.Serializer):
+    count = serializers.IntegerField()

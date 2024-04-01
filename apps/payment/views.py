@@ -34,7 +34,7 @@ class PaymentRequestUserVS(ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         if self.get_object().is_confirmed:
             return Response(
-                {"response": _("you are not allowed to do this action")},
+                {"detail": _("you are not allowed to do this action")},
                 status=status.HTTP_403_FORBIDDEN,
             )
         return super().destroy(request, *args, **kwargs)

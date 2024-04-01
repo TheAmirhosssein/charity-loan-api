@@ -54,7 +54,7 @@ class SendOTP(APIView):
             SendSMS.send_otp(new_otp.otp, user.phone_number)
             return Response(
                 {
-                    "response": _("otp code sent"),
+                    "detail": _("otp code sent"),
                     "key": new_otp.uuid,
                 },
                 status=status.HTTP_201_CREATED,
@@ -143,7 +143,7 @@ class SendSMSAV(APIView):
                 serializer.validated_data["phone_numbers"],
                 serializer.validated_data["text"],
             )
-            return Response({"response": _("SMS sent")}, status=status.HTTP_200_OK)
+            return Response({"detail": _("SMS sent")}, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors)
 
@@ -168,3 +168,21 @@ class WinnersVS(ModelViewSet):
             )
         except Exception:
             return queryset.none()
+
+
+class Lottery(APIView):
+    permission_classes = [IsAdmin]
+
+    def post(self, request):
+        serializer = serializers.LotterySerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                winners = User.objects.lottery(
+                    is_admin=False, count=serializer.validated_data["count"]
+                )
+            except ValueError as e:
+                return Response({"detail": str(e)}, status.HTTP_400_BAD_REQUEST)
+            serialized_winners = serializers.UserInfoSerializer(winners, many=True).data
+            return Response(serialized_winners, status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)

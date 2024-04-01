@@ -1,6 +1,11 @@
-from apps.common.managers import BaseManager
+import random
+from typing import List
+
 from django.contrib.auth.models import UserManager
 from django.utils.translation import gettext_lazy as _
+
+from apps.accounts import models
+from apps.common.managers import BaseManager
 
 
 class BaseUserManager(BaseManager, UserManager):
@@ -38,3 +43,14 @@ class BaseUserManager(BaseManager, UserManager):
         user.is_active = True
         user.save(using=self._db)
         return user
+
+    def lottery(self, count: int, *args, **kwargs) -> List:
+        users = list(self.filter(*args, **kwargs))
+        if count > len(users) or count <= 0:
+            raise ValueError(
+                _("Given count is larger than users population or bellow 1")
+            )
+        winners = random.sample(users, count)
+        [models.Winners.objects.create(user_id=user.pk) for user in winners]
+        winners_object = self.filter(pk__in=[user.pk for user in winners])
+        return winners_object
