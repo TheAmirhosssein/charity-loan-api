@@ -56,8 +56,9 @@ class BaseUserManager(BaseManager, UserManager):
         if count > len(users) or count <= 0:
             raise ValueError(
                 _(
-                    f"Given count is larger than users population or bellow 1. Max population is: {len(users)}"
+                    "Given count is larger than users population or bellow 1. Max population is: "
                 )
+                + str(len(users))
             )
         winners = random.sample(users, count)
         [models.Winners.objects.create(user_id=user.pk) for user in winners]
