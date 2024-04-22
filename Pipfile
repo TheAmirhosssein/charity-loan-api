@@ -16,6 +16,7 @@ django-filter = "==23.5"
 django-jalali-date = "==1.1.0"
 drf-nested-routers = "==0.93.5"
 django-apscheduler = "==0.6.2"
+drf-api-logger = "==1.1.15"
 drf-yasg = {extras = ["validation"], version = "*"}
 
 [dev-packages]
