@@ -1,6 +1,7 @@
 # charity-loan-api
 This is payment management project
 
+
 ### run project
 - at first create a file named `.env ` based on `.env.example` file
 - go to [https://jwtsecret.com/](https://djecrety.ir/) generate and generate secret key
