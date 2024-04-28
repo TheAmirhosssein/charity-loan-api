@@ -1,5 +1,5 @@
 # charity-loan-api
-this is a project for Sadabadi to dump our history and arabic subjects
+This is payment management project
 
 ### run project
 - at first create a file named `.env ` based on `.env.example` file
